@@ -3,9 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-
+// import { confirmAlert } from 'react-confirm-alert';
+// import 'react-confirm-alert/src/react-confirm-alert.css';
 
 export default function ShowTaskList() {
     const [tasks, setTasks] = useState(null)
@@ -13,7 +12,7 @@ export default function ShowTaskList() {
     const [time, setTime] = useState("")
     const [isReminder, setIsReminder] = useState(false)
     const [isAdd, setIsAdd] = useState(false)
-   
+
     useEffect(() => {
         axios.get("http://localhost:3000/tasks")
             .then(res => { setTasks(res.data); console.log(res.data) })
@@ -29,34 +28,16 @@ export default function ShowTaskList() {
     }
 
     const handleDelete = (id) => {
-        confirmAlert({
-            title: 'Confirm Deletion',
-            message: 'Are you sure you want to delete?',
-            buttons: [
-                {
-                    label: 'Yes',
-                    onClick: () => {
-                        axios
-                            .delete('http://localhost:3000/tasks/' + id)
-                            .then((res) => {
-                                if (res.status === 200) {
-                                    setTasks(tasks.filter((task) => task.id !== id));
-                                } else {
-                                    toast.error('Error');
-                                }
-                            });
-                    }
-                    
-                },
-                {
-                    label: 'No',
-                    onClick: () => {
-                       
-                    }
+        window.confirm("Are you sure you want to delete") ? (axios.delete("http://localhost:3000/tasks/" + id)
+            .then(res => {
+                if (res.status == 200) {
+                    setTasks(tasks.filter(task => task.id !== id));
+                } else {
+                    toast.error("Error")
                 }
-            ]
-        });
-    };
+            })) : <div></div>
+    }
+
     return (
         <div className='container'>
             <div className='header' style={{ display: "flex" }}>
