@@ -59,7 +59,7 @@ export default function ShowTaskList() {
                     <input type="checkbox" checked={isReminder} onChange={() => setIsReminder(!isReminder)} />
                 </div>
                 <button className="add-button" onClick={() => {
-                    if (task !== "" && time !== "") {
+                    if (task !== "" && time !== " ") {
                         handleAddTask(task, time, isReminder)
                         setTask("")
                         setTime("")
